@@ -25,10 +25,31 @@ Args:
 
 	AP_iface:
 		Wireless interface to set up as an AP. Will be started in monitor mode.
+
+
+Environment variables. To use them to configure the AP properties, you can either
+\`export <VAR_NAME>=<whatever>\` and then run this script, or directly execute this
+script using \`env <VAR_NAME>=<whatever> $0 ...\`
+
+	HOLD: set it to '-hold' to keep the xterm windows up even after the process
+		being executed dies. This can be used to debug the script and see why it
+		isn't working
+
+	ESSID: set it to whatever string you want. This will be the name used by your AP.
 "
 
 # Exits if there aren't 2 arguments
 test $# -ne 2 && printf "%s" "$HELP" && exit
+
+# Checks that the interfaces do exist
+for iface in "$1" "$2"
+do
+	if ! ip link show "$iface" 1>/dev/null 2>&1
+	then
+		printf "ERROR: '%s' is not a valid interface\n" "$iface"
+		exit
+	fi
+done
 
 # ----------------------------------
 # ----------------------------------
