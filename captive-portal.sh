@@ -13,8 +13,9 @@
 # Args check
 ########
 
-HELP="WiFi Captive Portal script - May 19, 2019
+HELP="WiFi Captive Portal script
 Foo-Manroot
+2019
 
 Usage:
 	$0 <INET_iface> <AP_iface>
