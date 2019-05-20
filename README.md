@@ -52,11 +52,16 @@ This is because, when setting up the AP, we usually use very simple firewall rul
 
 
 Of course, you're free to use any of the gazillions of alternative tools:
-	- [Fluxion](https://github.com/wi-fi-analyzer/fluxion)
-	- [PwnSTAR](https://github.com/SilverFoxx/PwnSTAR)
-	- [WiFi-Pumpkin](https://github.com/P0cL4bs/WiFi-Pumpkin)
-	- [WifiPhisher](https://github.com/wifiphisher/wifiphisher)
-	- (...)
+
+- [Fluxion](https://github.com/wi-fi-analyzer/fluxion)
+
+- [PwnSTAR](https://github.com/SilverFoxx/PwnSTAR)
+
+- [WiFi-Pumpkin](https://github.com/P0cL4bs/WiFi-Pumpkin)
+
+- [WifiPhisher](https://github.com/wifiphisher/wifiphisher)
+
+- (...)
 
 
 ## What does 'FvS' mean?
