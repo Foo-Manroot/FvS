@@ -40,7 +40,7 @@ script using \`env <VAR_NAME>=<whatever> $0 ...\`
 "
 
 # Exits if there aren't 2 arguments
-test $# -ne 2 && printf "%s" "$HELP" && exit
+test $# -ne 2 && printf "%s" "$HELP" && exit 1
 
 # Checks that the interfaces do exist
 for iface in "$1" "$2"
@@ -48,9 +48,28 @@ do
 	if ! ip link show "$iface" 1>/dev/null 2>&1
 	then
 		printf "ERROR: '%s' is not a valid interface\n" "$iface"
-		exit
+		exit 1
 	fi
 done
+
+# Check PHP version
+! test -d /etc/php/ && printf "ERROR: PHP needs to be installed\n" && exit 1
+PHP_VER=""
+for dir in $(find /etc/php/ -mindepth 1 -maxdepth 1 -type d | sort -r)
+do
+	test -d "$dir/fpm" \
+		&& PHP_VER="$(printf "%s" "$dir" | awk -F/ '{ print $4}')" \
+		&& break
+done
+
+if -z "$PHP_VER"
+then
+	printf "No PHP-fpm version detected\n"
+	exit 2
+else
+	printf "Detected PHP-fpm version: %s\n" "$PHP_VER"
+fi
+
 
 # ----------------------------------
 # ----------------------------------
@@ -271,7 +290,7 @@ http {
 	gzip on;
 
 	upstream php {
-		server unix:/var/run/php/php7.0-fpm.sock;
+		server unix:/var/run/php/php$PHP_VER-fpm.sock;
 	}
 
 	server {
@@ -307,7 +326,7 @@ http {
 EOF
 
 # Starts the PHP-FPM service if needed
-test -x /var/run/php/php7.0-fpm.sock || systemctl start php7.0-fpm.service
+test -x /var/run/php/php"$PHP_VER"-fpm.sock || systemctl start php"$PHP_VER"-fpm.service
 # The PHP-fpm service doesn't work with root
 chown -R www-data:www-data "$TMP_DIR/www"
 chmod 0755 "$TMP_DIR"
