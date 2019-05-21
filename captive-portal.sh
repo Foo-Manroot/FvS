@@ -164,6 +164,8 @@ iptables -t filter -A wlan0_Unknown -j REJECT --reject-with icmp-port-unreachabl
 #allow forwarding of requests from anywhere to eth0/WAN
 iptables -t nat -A POSTROUTING -o "$INET_iface" -j MASQUERADE
 
+# CRUCIAL: enable IP forwarding
+echo "1" > /proc/sys/net/ipv4/ip_forward
 
 ####
 # Start hostapd to manage the AP
@@ -370,6 +372,8 @@ iptables -t filter -F
 iptables -t mangle -X
 
 cp -v "$TMP_DIR/sudoers" /etc/sudoers
+
+echo "0" > /proc/sys/net/ipv4/ip_forward
 
 # Removes the temporal directory
 rm -rf "$TMP_DIR"
