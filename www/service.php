@@ -62,7 +62,7 @@ if(($password == "") || ($name == ""))
 else
 {
     // Attempt to get the client's mac address
-    $mac = shell_exec("$arp -a ".$_SERVER ['REMOTE_ADDR']);
+    $mac = shell_exec("$arp -na ".$_SERVER ['REMOTE_ADDR']);
     preg_match('/..:..:..:..:..:../',$mac , $matches);
     @$mac = $matches[0];
 
