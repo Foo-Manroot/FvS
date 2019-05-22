@@ -62,7 +62,7 @@ do
 		&& break
 done
 
-if -z "$PHP_VER"
+if [ -z "$PHP_VER" ]
 then
 	printf "No PHP-fpm version detected\n"
 	exit 2
