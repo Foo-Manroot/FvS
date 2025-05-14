@@ -224,6 +224,7 @@ address=/connectivity-check.ubuntu.com/10.3.2.1
 EOF
 
 # To avoid problems regarding already assigned ports
+echo "Stopping systemd-resolved; in some versions of Kali systemd-resolved is not installed and this will fail harmlessly"
 systemctl stop systemd-resolved
 nohup xterm "$HOLD" -e dnsmasq -C "$TMP_DIR"/dnsmasq.conf -d &
 
@@ -354,6 +355,7 @@ wait
 #
 printf "Cleaning up...\n"
 #airmon-ng stop "$monitor_iface"
+echo "Starting systemd-resolved; in some versions of Kali systemd-resolved is not installed and this will fail harmlessly"
 systemctl restart systemd-resolved
 route del -net 10.3.2.0 netmask 255.255.255.0
 # Don't know why; but it gets added twice, so it has to be removed twice
